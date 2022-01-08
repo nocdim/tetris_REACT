@@ -7,7 +7,7 @@ const ParticleBackground = () => {
             <Particles 
             options={{
                 background: {
-                    color: "#0e387a",
+                    color: "#110914",
                 },
                 fpsLimit: 144,
                 interactivity: {
@@ -18,7 +18,7 @@ const ParticleBackground = () => {
                 },
                 particles: {
                     color: {
-                        value: "9fafca"
+                        value: "d4bade"
                     },
                     number: {
                         density: {
@@ -32,8 +32,8 @@ const ParticleBackground = () => {
                         animation: {
                             enable: true,
                             minimumValue: 0.05,
-                            speed: 1,
-                            sync: false
+                            speed: 1.5,
+                            sync: true
                         },
                         random: {
                             enable: true,
@@ -49,7 +49,7 @@ const ParticleBackground = () => {
                             enable: true,
                             minimumValue: 0.5,
                         },
-                        value: 1,
+                        value: 1.5,
                     }
                 }
             }}
