@@ -14,7 +14,7 @@ import Display from './Display'
 import StartButton from './StartButton'
 import ParticleBackground from "./ParticleBackground"
 
-const Tetris = ({ callback }) => {
+const Tetris = () => {
 
     const [dropTime, setDropTime] = useState(null);
     const [gameOver, setGameOver] = useState(false)
@@ -24,7 +24,7 @@ const Tetris = ({ callback }) => {
 
     // function for moving a tetromino
     const movePlayer = dir => {
-        updatePlayerPos({ x: dir, y: 0 })
+        updatePlayerPos({ x: dir, y: 0, collided: false})
     }
     // function that start the game
     const startGame = () => {
@@ -34,7 +34,9 @@ const Tetris = ({ callback }) => {
     }
     // function that pushes player down
     const drop = () => {
-        updatePlayerPos({ x: 0, y: 1, collided: false })
+        // NOTE: there's a bug that causes tetromino move 2 spaces instead of 1 on Y
+        // SO INSTEAD OF 1 I PUT 0.5 AND SO ON
+        updatePlayerPos({ x: 0, y: 0.5, collided: false })
     }
 
     const dropPlayer = () => {
@@ -46,11 +48,13 @@ const Tetris = ({ callback }) => {
             switch (keyCode) {
                 // 37 is the key to the left arrow on a keyboard
                 case 37:
-                    movePlayer(-1);
+                    // NOTE: there's a bug that causes tetromino move 2 spaces instead of 1 on X
+                    // SO INSTEAD OF -1 I PUT -0.5 AND SO ON
+                    movePlayer(-0.5);
                     break;
                 // 39 is the key to the right arrow on a keyboard
                 case 39:
-                    movePlayer(1);
+                    movePlayer(0.5);
                     break;
                 // 40 is the key to the down arrow on a keyboard
                 case 40:
@@ -75,7 +79,7 @@ const Tetris = ({ callback }) => {
                     <Display text="Level" />    
                 </div>
                 )}
-                <StartButton onClick={startGame}/>
+                <StartButton callback={startGame}/>
             </aside>
             </StyledTetris>
             <ParticleBackground />
