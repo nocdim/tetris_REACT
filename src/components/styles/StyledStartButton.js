@@ -9,7 +9,7 @@ export const StyledStartButton = styled.div`
     border-radius: 20px;
     border: none;
     color: white;
-    background: #333;
+    background: #62207a;
     font-family: Pixel, Arial, Helvetica, sans-serif;
     font-size: 1rem;
     outline: none;
