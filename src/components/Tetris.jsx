@@ -1,4 +1,5 @@
 import React, { useState } from "react"
+import { createStage } from "../gameHelpers"
 
 // style Components
 import { StyledTetrisWrapper, StyledTetris } from "./styles/StyledTetris"
@@ -18,11 +19,50 @@ const Tetris = ({ callback }) => {
     const [dropTime, setDropTime] = useState(null);
     const [gameOver, setGameOver] = useState(false)
 
-    const [player] = usePlayer();
+    const [player, updatePlayerPos, resetPlayer] = usePlayer();
     const [stage, setStage] = useStage(player)
 
+    // function for moving a tetromino
+    const movePlayer = dir => {
+        updatePlayerPos({ x: dir, y: 0 })
+    }
+    // function that start the game
+    const startGame = () => {
+        // Reset everything
+        setStage(createStage())
+        resetPlayer()
+    }
+    // function that pushes player down
+    const drop = () => {
+        updatePlayerPos({ x: 0, y: 1, collided: false })
+    }
+
+    const dropPlayer = () => {
+        drop()
+    }
+    // function to binding movement keys
+    const move = ({ keyCode }) => {
+        if (!gameOver) {
+            switch (keyCode) {
+                // 37 is the key to the left arrow on a keyboard
+                case 37:
+                    movePlayer(-1);
+                    break;
+                // 39 is the key to the right arrow on a keyboard
+                case 39:
+                    movePlayer(1);
+                    break;
+                // 40 is the key to the down arrow on a keyboard
+                case 40:
+                    dropPlayer()
+                    break;
+            }
+        }
+    }
+
     return (
-        <StyledTetrisWrapper>
+        // StyledTetrisWrapper is responsible for taking key inputs as it covers the whole web-page
+        <StyledTetrisWrapper role="button" tabIndex="0" onKeyDown={e => move(e)}>
             <StyledTetris>
             <Stage stage={stage} />
             <aside>
@@ -35,7 +75,7 @@ const Tetris = ({ callback }) => {
                     <Display text="Level" />    
                 </div>
                 )}
-                <StartButton />
+                <StartButton onClick={startGame}/>
             </aside>
             </StyledTetris>
             <ParticleBackground />
