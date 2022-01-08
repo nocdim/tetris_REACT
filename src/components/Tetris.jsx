@@ -8,6 +8,7 @@ import { StyledTetrisWrapper, StyledTetris } from "./styles/StyledTetris"
 import Stage from "./Stage"
 import Display from './Display'
 import StartButton from './StartButton'
+import ParticleBackground from "./ParticleBackground"
 
 const Tetris = ({ callback }) => {
     return (
@@ -23,6 +24,7 @@ const Tetris = ({ callback }) => {
                 <StartButton />
             </aside>
             </StyledTetris>
+            <ParticleBackground />
         </StyledTetrisWrapper>
     )
 }

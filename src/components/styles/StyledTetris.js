@@ -14,6 +14,8 @@ export const StyledTetris = styled.div`
     padding: 40px;
     margin: 0 auto;
     max-width: 900px;
+    position: relative;
+    z-index: 1;
 
     aside {
         width: 100%;
