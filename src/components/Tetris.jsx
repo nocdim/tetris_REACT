@@ -20,7 +20,7 @@ const Tetris = () => {
     const [dropTime, setDropTime] = useState(null);
     const [gameOver, setGameOver] = useState(false);
 
-    const [player, updatePlayerPos, resetPlayer] = usePlayer();
+    const [player, updatePlayerPos, resetPlayer, playerRotate] = usePlayer();
     const [stage, setStage] = useStage(player, resetPlayer);
 
     const movePlayer = (dir) => {
@@ -56,12 +56,34 @@ const Tetris = () => {
 
     const move = ({ keyCode }) => {
         if (!gameOver) {
-            if (keyCode === 37) {
-                movePlayer(-1);
-            } else if (keyCode === 39) {
-                movePlayer(1);
-            } else if (keyCode === 40) {
-                dropPlayer()
+            switch (keyCode) {
+                // keyCode 37 is responsible for the LEFT arrow key on the keyboard
+                // Moving player to the left
+                case 37:
+                    movePlayer(-1)
+                    break
+                // keyCode 39 is responsible for the RIGHT arrow key on the keyboard
+                // Moving player to the right
+                case 39:
+                    movePlayer(1)
+                    break
+                // keyCode 40 is responsible for the DOWN arrow key on the keyboard
+                // Moving player down
+                case 40:
+                    dropPlayer()
+                    break
+                // keyCode 81 is responsible for the Q arrow key on the keyboard
+                // Rotating player ANTICLOCKWISE
+                case 81:
+                    playerRotate(stage, -1)
+                    break
+                // keyCode 69 is responsible for the E arrow key on the keyboard
+                // Rotating player CLOCKWISE
+                case 69:
+                    playerRotate(stage, 1)
+                    break
+                default:
+                    break   
             }
         }
     }
