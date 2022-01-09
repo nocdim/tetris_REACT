@@ -5,18 +5,22 @@ import { createStage } from "../gameHelpers";
 export const useStage = (player, resetPlayer) => {
     const [stage, setStage] = useState(createStage());
     const [rowsCleared, setRowsCleared] = useState(0)
+    
 
     useEffect(() => {
         setRowsCleared(0)
         const sweepRows = newStage => 
             newStage.reduce((ack, row) => {
                 if (row.findIndex(cell => cell[0] === 0) === -1) {
-                    setRowsCleared(prev => prev + 1)
+                    // NOTE: for some reason cleared rows are doubled so i decided to put 0.5 in its place to fix the problem
+                    // THIS IS NOT THE BEST WAY TO RESOLVE THIS ERROR
+                    setRowsCleared(prev => prev + 0.5)
                     ack.unshift(new Array(newStage[0].length).fill([0, 'clear']))
                     return ack
+                } else {
+                    ack.push(row)
+                    return ack
                 }
-                ack.push(row)
-                return ack
             }, [])
         const updateStage = (prevStage) => {
             // First clear the stage
@@ -45,7 +49,7 @@ export const useStage = (player, resetPlayer) => {
 
         setStage((prev) => updateStage(prev));
 
-    }, [player]);
+    }, [player, resetPlayer]);
 
     return [stage, setStage, rowsCleared];
 };
