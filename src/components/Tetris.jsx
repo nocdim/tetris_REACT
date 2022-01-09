@@ -8,6 +8,7 @@ import { StyledTetrisWrapper, StyledTetris } from "./styles/StyledTetris"
 // Custom hooks
 import { usePlayer } from "../hooks/usePlayer"
 import { useStage } from "../hooks/useStage"
+import { useInterval } from "../hooks/useInterval"
 
 // Components
 import Stage from "./Stage"
@@ -34,6 +35,7 @@ const Tetris = () => {
         setStage(createStage());
         resetPlayer();
         setGameOver(false)
+        setDropTime(1000)
     }
 
     const drop = () => {
@@ -49,8 +51,17 @@ const Tetris = () => {
             updatePlayerPos({ x: 0, y: 0, collided: true })
         }
     }
+    // function that activates useInterval again when the down key is up
+    const keyUp = ({ keyCode }) => {
+        if (!gameOver) {
+            if (keyCode === 40) {
+                setDropTime(1000)
+            }
+        }
+    }
 
     const dropPlayer = () => {
+        setDropTime(null);
         drop();
     }
 
@@ -88,9 +99,19 @@ const Tetris = () => {
         }
     }
 
+    // Creating movement of tetromino by itself
+    useInterval(() => {
+        drop();
+    }, dropTime)
+
     return (
         // StyledTetrisWrapper is responsible for taking key inputs as it covers the whole web-page
-        <StyledTetrisWrapper role="button" tabIndex="0" onKeyDown={(e) => move(e)}>
+        <StyledTetrisWrapper 
+        role="button" 
+        tabIndex="0" 
+        onKeyDown={(e) => move(e)} 
+        onKeyUp={keyUp}
+        >
             <StyledTetris>
             <Stage stage={stage} />
             <aside>
