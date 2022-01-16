@@ -10,7 +10,9 @@ function createWindow() {
         height: 1080, 
         webPreferences: {
             enableRemoteModule: true,
-        }
+        },
+        autoHideMenuBar: true,
+        fullscreen: true,
     })
     win.loadURL('http://localhost:3000')
 }
